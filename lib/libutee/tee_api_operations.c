@@ -137,6 +137,7 @@ TEE_Result TEE_AllocateOperation(TEE_OperationHandle *operation,
 		/* FALLTHROUGH */
 	case TEE_ALG_AES_CTR:
 	case TEE_ALG_AES_GCM:
+	case TEE_ALG_CHACHA20_POLY1305:
 		if (mode == TEE_MODE_ENCRYPT)
 			req_key_usage = TEE_USAGE_ENCRYPT;
 		else if (mode == TEE_MODE_DECRYPT)
@@ -1307,10 +1308,10 @@ TEE_Result TEE_AEInit(TEE_OperationHandle operation, const void *nonce,
 	}
 
 	/*
-	 * AES-CCM tag len is specified by AES-CCM spec and handled in TEE Core
-	 * in the implementation. But AES-GCM spec doesn't specify the tag len
-	 * according to the same principle so we have to check here instead to
-	 * be GP compliant.
+	 * AES-CCM and CHACHA20-POLY1305 tag len is specified by their spec and
+	 * handled in TEE Core in the implementation. But AES-GCM spec doesn't
+	 * specify the tag len according to the same principle so we have to check
+	 * here instead to be GP compliant.
 	 */
 	if (operation->info.algorithm == TEE_ALG_AES_GCM) {
 		/*
@@ -1868,6 +1869,10 @@ TEE_Result TEE_IsAlgorithmSupported(uint32_t alg, uint32_t element)
 		}
 		if (IS_ENABLED(CFG_CRYPTO_GCM)) {
 			if (alg == TEE_ALG_AES_GCM)
+				goto check_element_none;
+		}
+		if (IS_ENABLED(CFG_CRYPTO_CHACHA20_POLY1305)) {
+			if (alg == TEE_ALG_CHACHA20_POLY1305)
 				goto check_element_none;
 		}
 	}

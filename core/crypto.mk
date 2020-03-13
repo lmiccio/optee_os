@@ -57,6 +57,7 @@ endif
 # Authenticated encryption
 CFG_CRYPTO_CCM ?= y
 CFG_CRYPTO_GCM ?= y
+CFG_CRYPTO_CHACHA20_POLY1305 ?= y
 # Default uses the OP-TEE internal AES-GCM implementation
 CFG_CRYPTO_AES_GCM_FROM_CRYPTOLIB ?= n
 
@@ -172,6 +173,7 @@ core-ltc-vars += CCM
 ifeq ($(CFG_CRYPTO_AES_GCM_FROM_CRYPTOLIB),y)
 core-ltc-vars += GCM
 endif
+core-ltc-vars += CHACHA20_POLY1305
 core-ltc-vars += RSA DSA DH ECC
 core-ltc-vars += AES_ARM64_CE AES_ARM32_CE
 core-ltc-vars += SHA1_ARM32_CE SHA1_ARM64_CE

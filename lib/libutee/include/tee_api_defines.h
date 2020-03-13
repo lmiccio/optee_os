@@ -127,6 +127,7 @@
 #define TEE_ALG_AES_CMAC                        0x30000610
 #define TEE_ALG_AES_CCM                         0x40000710
 #define TEE_ALG_AES_GCM                         0x40000810
+#define TEE_ALG_CHACHA20_POLY1305               0x40000910
 #define TEE_ALG_DES_ECB_NOPAD                   0x10000011
 #define TEE_ALG_DES_CBC_NOPAD                   0x10000111
 #define TEE_ALG_DES_CBC_MAC_NOPAD               0x30000111

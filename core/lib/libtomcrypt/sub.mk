@@ -80,6 +80,9 @@ endif
 ifeq ($(_CFG_CORE_LTC_GCM),y)
 	cppflags-lib-y += -DLTC_GCM_MODE
 endif
+ifeq ($(_CFG_CORE_LTC_CHACHA20_POLY1305),y)
+	cppflags-lib-y += -DLTC_CHACHA20POLY1305_MODE -DLTC_CHACHA -DLTC_POLY1305
+endif
 
 cppflags-lib-y += -DLTC_NO_PK
 
@@ -132,6 +135,7 @@ srcs-$(_CFG_CORE_LTC_CTR) += ctr.c
 srcs-$(_CFG_CORE_LTC_XTS) += xts.c
 srcs-$(_CFG_CORE_LTC_CCM) += ccm.c
 srcs-$(_CFG_CORE_LTC_GCM) += gcm.c
+srcs-$(_CFG_CORE_LTC_CHACHA20_POLY1305) += chacha20poly1305.c
 srcs-$(_CFG_CORE_LTC_DSA) += dsa.c
 srcs-$(_CFG_CORE_LTC_ECC) += ecc.c
 srcs-$(_CFG_CORE_LTC_RSA) += rsa.c
