@@ -42,6 +42,37 @@ srcs-y += tee_time_generic.c
 srcs-$(CFG_SECSTOR_TA) += tadb.c
 srcs-$(CFG_GP_SOCKETS) += socket.c
 
+# Select encryption auth method
+ifeq ($(CFG_CRYPTO_DEFAULT_ENCAUTH), gcm)
+
+cppflags-tadb.c-$(CFG_SECSTOR_TA) += -DTEE_FS_HTREE_AUTH_ENC_ALG=TEE_ALG_AES_GCM
+cppflags-fs_htree.c-$(call cfg-one-enabled,CFG_REE_FS \
+	CFG_TEE_CORE_EMBED_INTERNAL_TESTS) += \
+	-DTEE_FS_HTREE_AUTH_ENC_ALG=TEE_ALG_AES_GCM
+
+else ifeq ($(CFG_CRYPTO_DEFAULT_ENCAUTH), ccm)
+
+cppflags-tadb.c-$(CFG_SECSTOR_TA) += -DTEE_FS_HTREE_AUTH_ENC_ALG=TEE_ALG_AES_CCM
+cppflags-fs_htree.c-$(call cfg-one-enabled,CFG_REE_FS \
+	CFG_TEE_CORE_EMBED_INTERNAL_TESTS) += \
+	-DTEE_FS_HTREE_AUTH_ENC_ALG=TEE_ALG_AES_CCM
+
+else ifeq ($(CFG_CRYPTO_DEFAULT_ENCAUTH), chacha20poly1305)
+
+CFG_CRYPTO_DEFAULT_ENCAUTH_CHACHA20POLY1305 = y
+cppflags-tadb.c-$(CFG_SECSTOR_TA) += \
+	-DTEE_FS_HTREE_AUTH_ENC_ALG=TEE_ALG_CHACHA20_POLY1305 \
+	-DTADB_IV_SIZE=12
+cppflags-fs_htree.c-$(call cfg-one-enabled,CFG_REE_FS \
+	CFG_TEE_CORE_EMBED_INTERNAL_TESTS) += \
+	-DTEE_FS_HTREE_AUTH_ENC_ALG=TEE_ALG_CHACHA20_POLY1305
+
+else
+$(error Error: CFG_CRYPTO_DEFAULT_ENCAUTH is wrong. Supported values: gcm ccm\
+	chacha20poly1305)
+
+endif
+
 endif #CFG_WITH_USER_TA,y
 
 srcs-y += uuid.c

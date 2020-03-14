@@ -20,7 +20,12 @@
 #include <utee_defines.h>
 
 #define TEE_FS_HTREE_HASH_SIZE		TEE_SHA256_HASH_SIZE
+
+#ifdef CFG_CRYPTO_DEFAULT_ENCAUTH_CHACHA20POLY1305
+#define TEE_FS_HTREE_IV_SIZE		12
+#else
 #define TEE_FS_HTREE_IV_SIZE		16
+#endif
 #define TEE_FS_HTREE_FEK_SIZE		16
 #define TEE_FS_HTREE_TAG_SIZE		16
 

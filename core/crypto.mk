@@ -58,6 +58,8 @@ endif
 CFG_CRYPTO_CCM ?= y
 CFG_CRYPTO_GCM ?= y
 CFG_CRYPTO_CHACHA20_POLY1305 ?= y
+# Default Authenticated encryption algorithm is AES-GCM
+CFG_CRYPTO_DEFAULT_ENCAUTH ?= gcm
 # Default uses the OP-TEE internal AES-GCM implementation
 CFG_CRYPTO_AES_GCM_FROM_CRYPTOLIB ?= n
 
