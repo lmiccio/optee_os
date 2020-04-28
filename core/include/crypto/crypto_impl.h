@@ -262,6 +262,7 @@ struct crypto_authenc_ops {
 
 TEE_Result crypto_aes_ccm_alloc_ctx(struct crypto_authenc_ctx **ctx);
 TEE_Result crypto_aes_gcm_alloc_ctx(struct crypto_authenc_ctx **ctx);
+TEE_Result crypto_chacha20_poly1305_alloc_ctx(struct crypto_authenc_ctx **ctx);
 
 #ifdef CFG_CRYPTO_DRV_HASH
 TEE_Result drvcrypt_hash_alloc_ctx(struct crypto_hash_ctx **ctx, uint32_t algo);
