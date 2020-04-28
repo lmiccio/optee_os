@@ -333,6 +333,11 @@ TEE_Result crypto_authenc_alloc_ctx(void **ctx, uint32_t algo)
 		res = crypto_aes_gcm_alloc_ctx(&c);
 		break;
 #endif
+#if defined(CFG_CRYPTO_CHACHA20_POLY1305)
+	case TEE_ALG_CHACHA20_POLY1305:
+		res = crypto_chacha20_poly1305_alloc_ctx(&c);
+		break;
+#endif
 	default:
 		return TEE_ERROR_NOT_IMPLEMENTED;
 	}

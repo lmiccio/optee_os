@@ -6,3 +6,4 @@ subdirs-$(_CFG_CORE_LTC_ACIPHER) += math
 subdirs-y += misc
 subdirs-y += modes
 subdirs-$(_CFG_CORE_LTC_ACIPHER) += pk
+subdirs-$(_CFG_CORE_LTC_CHACHA20_POLY1305) += stream
