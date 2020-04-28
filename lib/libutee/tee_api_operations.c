@@ -134,6 +134,7 @@ TEE_Result TEE_AllocateOperation(TEE_OperationHandle *operation,
 		/* FALLTHROUGH */
 	case TEE_ALG_AES_CTR:
 	case TEE_ALG_AES_GCM:
+	case TEE_ALG_CHACHA20_POLY1305:
 		if (mode == TEE_MODE_ENCRYPT)
 			req_key_usage = TEE_USAGE_ENCRYPT;
 		else if (mode == TEE_MODE_DECRYPT)
@@ -1867,6 +1868,10 @@ TEE_Result TEE_IsAlgorithmSupported(uint32_t alg, uint32_t element)
 		}
 		if (IS_ENABLED(CFG_CRYPTO_GCM)) {
 			if (alg == TEE_ALG_AES_GCM)
+				goto check_element_none;
+		}
+		if (IS_ENABLED(CFG_CRYPTO_CHACHA20_POLY1305)) {
+			if (alg == TEE_ALG_CHACHA20_POLY1305)
 				goto check_element_none;
 		}
 	}
