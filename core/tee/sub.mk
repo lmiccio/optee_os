@@ -42,6 +42,26 @@ srcs-y += tee_time_generic.c
 srcs-$(CFG_SECSTOR_TA) += tadb.c
 srcs-$(CFG_GP_SOCKETS) += socket.c
 
+# Select encryption auth method for Secure Storage's Hash Tree
+# Default is AES-GCM
+CFG_TEE_FS_HTREE_AUTH_ENC_ALG ?= gcm
+
+ifeq ($(CFG_TEE_FS_HTREE_AUTH_ENC_ALG), gcm)
+TEE_FS_HTREE_AUTH_ENC_ALG ?= TEE_ALG_AES_GCM
+else ifeq ($(CFG_TEE_FS_HTREE_AUTH_ENC_ALG), ccm)
+TEE_FS_HTREE_AUTH_ENC_ALG ?= TEE_ALG_AES_CCM
+else ifeq ($(CFG_TEE_FS_HTREE_AUTH_ENC_ALG), poly1305)
+TEE_FS_HTREE_AUTH_ENC_ALG ?= TEE_ALG_CHACHA20_POLY1305
+CFG_TEE_FS_HTREE_AUTH_ENC_ALG_CHACHA20POLY1305 ?= y
+else
+$(error Error: CFG_TEE_FS_HTREE_AUTH_ENC_ALG is wrong.\
+	Supported values: gcm ccm poly1305)
+endif
+
+cppflags-fs_htree.c-$(call cfg-one-enabled,CFG_REE_FS \
+	CFG_TEE_CORE_EMBED_INTERNAL_TESTS) += \
+	-DTEE_FS_HTREE_AUTH_ENC_ALG=$(TEE_FS_HTREE_AUTH_ENC_ALG)
+
 endif #CFG_WITH_USER_TA,y
 
 srcs-y += uuid.c

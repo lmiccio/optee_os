@@ -20,7 +20,12 @@
 #include <utee_defines.h>
 
 #define TEE_FS_HTREE_HASH_SIZE		TEE_SHA256_HASH_SIZE
+#ifdef CFG_TEE_FS_HTREE_AUTH_ENC_ALG_CHACHA20POLY1305
+/* ChaCha20-Poly1305 supports only IV with 96 bits */
+#define TEE_FS_HTREE_IV_SIZE		12
+#else
 #define TEE_FS_HTREE_IV_SIZE		16
+#endif
 #define TEE_FS_HTREE_FEK_SIZE		16
 #define TEE_FS_HTREE_TAG_SIZE		16
 
